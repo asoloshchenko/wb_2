@@ -1,0 +1,12 @@
+e 2
+a 10
+b 9
+e 2
+c 8
+f 11
+e 2
+
+
+first	second	third	fourth	fifth
+1	2	3	4	5
+раз	два	три	четыре	пять

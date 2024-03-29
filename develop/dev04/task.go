@@ -1,5 +1,11 @@
 package main
 
+import (
+	"fmt"
+	"sort"
+	"strings"
+)
+
 /*
 === Поиск анаграмм по словарю ===
 
@@ -19,6 +25,52 @@ package main
 Программа должна проходить все тесты. Код должен проходить проверки go vet и golint.
 */
 
+func CheckIfStringsAreAnagram(source string, target string) bool {
+
+	// Basic use case check both strings length
+	if len(source) != len(target) {
+		return false
+	}
+
+	// sort source & target arrays
+	sourceArray := []rune(source)
+	sort.Slice(sourceArray, func(i, j int) bool {
+		return sourceArray[i] < sourceArray[j]
+	})
+	targetArray := []rune(target)
+	sort.Slice(targetArray, func(i, j int) bool {
+		return targetArray[i] < targetArray[j]
+	})
+
+	// Loop through the arrays and check character by character
+	for i := 0; i < len(sourceArray); i++ {
+		if sourceArray[i] != targetArray[i] {
+			return false
+		}
+	}
+	return true
+}
+
+func f(words []string) map[string][]string {
+	res := make(map[string][]string)
+Outer:
+	for i := 0; i < len(words); i++ {
+		words[i] = strings.ToLower(words[i])
+		for k := range res {
+			if CheckIfStringsAreAnagram(words[i], k) && words[i] != k {
+				res[k] = append(res[k], words[i])
+				continue Outer
+			}
+		}
+		res[words[i]] = make([]string, 0)
+	}
+	return res
+}
+
 func main() {
 
+	words := []string{"Пятак", "пятка", "тяпка", "листок", "слиток", "столик"}
+	res := f(words)
+
+	fmt.Println(res)
 }
